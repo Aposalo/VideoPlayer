@@ -5,7 +5,9 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.compose.setContent
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
@@ -34,6 +36,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.media3.ui.PlayerView
+import com.aposalo.videoplayer.ui.theme.MediumGray
 import com.aposalo.videoplayer.ui.theme.VideoPlayerTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -69,62 +72,68 @@ class MainActivity() : ComponentActivity() {
                         lifecycleOwner.lifecycle.removeObserver(observer)
                     }
                 }
-
-                Column(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(16.dp)
-                ){
-                    AndroidView(
-                        factory = { context ->
-                            PlayerView(context).also{
-                                it.player = viewModel.player
-                            }
-                        },
-                        update = {
-                                 when(lifecycle) {
-                                     Lifecycle.Event.ON_PAUSE ->{
-                                         it.onPause()
-                                         it.player?.pause()
-                                     }
-                                     Lifecycle.Event.ON_RESUME -> {
-                                         it.onResume()
-                                     }
-                                     else -> {}
-                                 }
-                        },
+                Box(modifier = Modifier
+                    .fillMaxSize()
+                    .background(MediumGray)
+                    .padding(16.dp)
+                ) {
+                    Column(
                         modifier = Modifier
-                            .fillMaxWidth()
-                            .aspectRatio(16 / 9f)
-                    )
-                    Spacer(
-                        modifier = Modifier.height(8.dp)
-                    )
-                    IconButton(onClick = {
-                        selectVideoLauncher.launch("video/mp4")
-                    }) {
-                        Icon(
-                            imageVector = Icons.Default.FileOpen,
-                            contentDescription = "Select video"
-                        )
-                    }
-                    Spacer(modifier = Modifier.height(16.dp))
-                    LazyColumn(
-                        modifier = Modifier.fillMaxWidth()
-                    ) {
-                        items(videoItems) { item ->
-                            Text(
-                                text = item.name,
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .clickable {
-                                        viewModel.playVideo(item.contentUri)
+                            .fillMaxSize()
+                            .padding(16.dp)
+                    ){
+                        AndroidView(
+                            factory = { context ->
+                                PlayerView(context).also{
+                                    it.player = viewModel.player
+                                }
+                            },
+                            update = {
+                                when(lifecycle) {
+                                    Lifecycle.Event.ON_PAUSE ->{
+                                        it.onPause()
+                                        it.player?.pause()
                                     }
-                                    .padding(16.dp)
+                                    Lifecycle.Event.ON_RESUME -> {
+                                        it.onResume()
+                                    }
+                                    else -> {}
+                                }
+                            },
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .aspectRatio(16 / 9f)
+                        )
+                        Spacer(
+                            modifier = Modifier.height(8.dp)
+                        )
+                        IconButton(onClick = {
+                            selectVideoLauncher.launch("video/mp4")
+                        }) {
+                            Icon(
+                                imageVector = Icons.Default.FileOpen,
+                                contentDescription = "Select video"
                             )
+                        }
+                        Spacer(modifier = Modifier.height(16.dp))
+                        LazyColumn(
+                            modifier = Modifier.fillMaxWidth()
+                        ) {
+                            items(videoItems) { item ->
+                                Text(
+                                    text = item.name,
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .clickable {
+                                            viewModel.playVideo(item.contentUri)
+                                        }
+                                        .padding(16.dp)
+                                )
+                            }
                         }
                     }
                 }
+
             }
         }
     }
