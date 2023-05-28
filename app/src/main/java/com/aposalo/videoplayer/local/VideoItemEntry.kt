@@ -1,11 +1,10 @@
 package com.aposalo.videoplayer.local
 
-import android.os.Parcelable
 import androidx.room.Entity
-import kotlinx.parcelize.Parcelize
+import androidx.room.PrimaryKey
 
-@Parcelize
 @Entity(tableName = "video_item")
-class VideoItemEntry(
-    private var uri: String
-) : Parcelable
+data class VideoItemEntry(
+    @PrimaryKey(autoGenerate = true) var id: Int = 0,
+    var uri: String
+)

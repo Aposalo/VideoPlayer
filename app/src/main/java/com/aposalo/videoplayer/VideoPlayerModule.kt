@@ -3,6 +3,9 @@ package com.aposalo.videoplayer
 import android.app.Application
 import androidx.media3.common.Player
 import androidx.media3.exoplayer.ExoPlayer
+import androidx.room.Room
+import com.aposalo.videoplayer.local.AppDatabase
+import com.aposalo.videoplayer.utils.Constants.Companion.DATABASE_NAME
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -24,5 +27,15 @@ object VideoPlayerModule {
     @ViewModelScoped
     fun provideMetaDataReader(app : Application) : MetaDataReader {
         return MetaDataReaderImpl(app)
+    }
+
+    @Provides
+    @ViewModelScoped
+    fun provideLocalDatabase(app : Application) : AppDatabase {
+        return Room.databaseBuilder(
+            app,
+            AppDatabase::class.java,
+            DATABASE_NAME
+        ).build()
     }
 }
