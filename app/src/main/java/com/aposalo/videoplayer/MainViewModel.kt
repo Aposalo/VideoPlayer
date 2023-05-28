@@ -7,9 +7,9 @@ import androidx.lifecycle.viewModelScope
 import androidx.media3.common.MediaItem
 import androidx.media3.common.Player
 import com.aposalo.videoplayer.local.AppDatabase
+import com.aposalo.videoplayer.repository.VideoPlayerRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import javax.inject.Inject
 
@@ -22,16 +22,9 @@ class MainViewModel @Inject constructor(
 
 ): ViewModel() {
 
-    private val videoUris = savedStateHandle.getStateFlow("videoUris", emptyList<Uri>())
-    val videoItems = videoUris.map { uris ->
-        uris.map { uri ->
-            VideoItem(
-                contentUri = uri,
-                mediaItem = MediaItem.fromUri(uri),
-                name = metaDataReader.getMetaDataFromUri(uri)?.fileName ?: "No Name"
-            )
-        }
-    }
+    private val repository =  VideoPlayerRepository(savedStateHandle, metaDataReader)
+
+    val videoItems = repository.getMappedVideoItems()
         .stateIn(
             viewModelScope,
             SharingStarted.WhileSubscribed(5000),
@@ -43,7 +36,7 @@ class MainViewModel @Inject constructor(
 
 
     fun addVideoUri(uri : Uri) {
-        savedStateHandle["videoUris"] = videoUris.value + uri
+        repository.addVideoUriToLocalDatabase(uri)
         player.addMediaItem(MediaItem.fromUri(uri))
     }
 

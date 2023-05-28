@@ -7,8 +7,6 @@ plugins {
     id 'kotlin-kapt'
 }
 
-//apply plugin: 'kotlin-kapt'
-
 android {
     namespace 'com.aposalo.videoplayer'
     compileSdk 33
