@@ -15,11 +15,9 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MainViewModel @Inject constructor(
-    private val savedStateHandle: SavedStateHandle,
-    private val mDb: AppDatabase,
+    savedStateHandle: SavedStateHandle,
     val player: Player,
-    private val metaDataReader: MetaDataReader
-
+    metaDataReader: MetaDataReader
 ): ViewModel() {
 
     private val repository =  VideoPlayerRepository(savedStateHandle, metaDataReader)
