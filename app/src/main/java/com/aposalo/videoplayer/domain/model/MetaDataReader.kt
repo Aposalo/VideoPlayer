@@ -1,10 +1,8 @@
-package com.aposalo.videoplayer
+package com.aposalo.videoplayer.domain.model
 
 import android.app.Application
 import android.net.Uri
-import android.os.Build
 import android.provider.MediaStore
-import androidx.annotation.RequiresApi
 
 data class MetaData(
     val fileName : String
@@ -16,7 +14,7 @@ interface MetaDataReader{
 
 class MetaDataReaderImpl(
     private val app: Application
-) : MetaDataReader{
+) : MetaDataReader {
 
     override fun getMetaDataFromUri(contentUri: Uri): MetaData? {
         if(contentUri.scheme != "content") {

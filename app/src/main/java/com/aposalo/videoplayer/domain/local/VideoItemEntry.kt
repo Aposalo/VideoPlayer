@@ -1,4 +1,4 @@
-package com.aposalo.videoplayer.local
+package com.aposalo.videoplayer.domain.local
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
