@@ -8,6 +8,8 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.runtime.Composable
 import com.aposalo.videoplayer.domain.model.MainViewModel
+import com.aposalo.videoplayer.utils.Constants.Companion.SELECT_VIDEO
+import com.aposalo.videoplayer.utils.Constants.Companion.VIDEO_MP4
 
 @Composable
 fun GetIconButton(viewModel: MainViewModel){
@@ -19,11 +21,11 @@ fun GetIconButton(viewModel: MainViewModel){
     )
 
     IconButton(onClick = {
-        selectVideoLauncher.launch("video/mp4")
+        selectVideoLauncher.launch(VIDEO_MP4)
     }) {
         Icon(
             imageVector = Icons.Default.FileOpen,
-            contentDescription = "Select video"
+            contentDescription = SELECT_VIDEO
         )
     }
 }

@@ -5,6 +5,8 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.media3.common.MediaItem
 import com.aposalo.videoplayer.domain.model.MetaDataReader
 import com.aposalo.videoplayer.domain.model.VideoItem
+import com.aposalo.videoplayer.utils.Constants.Companion.NO_NAME
+import com.aposalo.videoplayer.utils.Constants.Companion.VIDEO_URIS
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.map
@@ -14,7 +16,7 @@ class VideoPlayerRepository(
     private val metaDataReader: MetaDataReader,
     )
 {
-    private var videoUris : StateFlow<List<Uri>> = savedStateHandle.getStateFlow("videoUris", emptyList())
+    private var videoUris : StateFlow<List<Uri>> = savedStateHandle.getStateFlow(VIDEO_URIS, emptyList())
 
     fun getMappedVideoItems() : Flow<List<VideoItem>> {
         return videoUris.map { uris ->
@@ -22,7 +24,7 @@ class VideoPlayerRepository(
                 VideoItem (
                     contentUri = uri,
                     mediaItem = MediaItem.fromUri(uri),
-                    name = metaDataReader.getMetaDataFromUri(uri)?.fileName ?: "No Name"
+                    name = metaDataReader.getMetaDataFromUri(uri)?.fileName ?: NO_NAME
                 )
             }
         }
@@ -30,6 +32,6 @@ class VideoPlayerRepository(
 
     fun addVideoUriToLocalDatabase(uri : Uri) {
         val videoUrisNewValue = videoUris.value + uri
-        savedStateHandle["videoUris"] = videoUrisNewValue
+        savedStateHandle[VIDEO_URIS] = videoUrisNewValue
     }
 }

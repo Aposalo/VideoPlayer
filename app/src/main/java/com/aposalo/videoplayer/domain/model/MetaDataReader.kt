@@ -3,6 +3,7 @@ package com.aposalo.videoplayer.domain.model
 import android.app.Application
 import android.net.Uri
 import android.provider.MediaStore
+import com.aposalo.videoplayer.utils.Constants.Companion.CONTENT
 
 data class MetaData(
     val fileName : String
@@ -17,7 +18,7 @@ class MetaDataReaderImpl(
 ) : MetaDataReader {
 
     override fun getMetaDataFromUri(contentUri: Uri): MetaData? {
-        if(contentUri.scheme != "content") {
+        if(contentUri.scheme != CONTENT) {
             return null
         }
         val fileName = app.contentResolver.query(
