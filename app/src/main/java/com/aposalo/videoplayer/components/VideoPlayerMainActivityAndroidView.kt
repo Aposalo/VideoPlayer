@@ -16,49 +16,46 @@ import androidx.lifecycle.LifecycleEventObserver
 import androidx.media3.ui.PlayerView
 import com.aposalo.videoplayer.domain.model.MainViewModel
 
-class VideoPlayerMainActivityAndroidView {
-    companion object{
-        @Composable
-        fun GetAndroidView(viewModel: MainViewModel){
+@Composable
+fun GetAndroidView(viewModel: MainViewModel){
 
-            var lifecycle by remember {
-                mutableStateOf(Lifecycle.Event.ON_CREATE)
-            }
-            val lifecycleOwner = LocalLifecycleOwner.current
+    var lifecycle by remember {
+        mutableStateOf(Lifecycle.Event.ON_CREATE)
+    }
+    val lifecycleOwner = LocalLifecycleOwner.current
 
-            DisposableEffect(lifecycleOwner) {
-                val observer = LifecycleEventObserver { _, event ->
-                    lifecycle = event
-                }
-                lifecycleOwner.lifecycle.addObserver(observer)
+    DisposableEffect(lifecycleOwner) {
+        val observer = LifecycleEventObserver { _, event ->
+            lifecycle = event
+        }
+        lifecycleOwner.lifecycle.addObserver(observer)
 
-                onDispose {
-                    lifecycleOwner.lifecycle.removeObserver(observer)
-                }
-            }
-
-            AndroidView(
-                factory = { context ->
-                    PlayerView(context).also {
-                        it.player = viewModel.player
-                    }
-                },
-                update = {
-                    when(lifecycle) {
-                        Lifecycle.Event.ON_PAUSE ->{
-                            it.onPause()
-                            it.player?.pause()
-                        }
-                        Lifecycle.Event.ON_RESUME -> {
-                            it.onResume()
-                        }
-                        else -> {}
-                    }
-                },
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .aspectRatio(16 / 9f)
-            )
+        onDispose {
+            lifecycleOwner.lifecycle.removeObserver(observer)
         }
     }
+
+    AndroidView(
+        factory = { context ->
+            PlayerView(context).also {
+                it.player = viewModel.player
+            }
+        },
+        update = {
+            when(lifecycle) {
+                Lifecycle.Event.ON_PAUSE ->{
+                    it.onPause()
+                    it.player?.pause()
+                }
+                Lifecycle.Event.ON_RESUME -> {
+                    it.onResume()
+                }
+
+                else -> {}
+            }
+        },
+        modifier = Modifier
+            .fillMaxWidth()
+            .aspectRatio(16 / 9f)
+    )
 }

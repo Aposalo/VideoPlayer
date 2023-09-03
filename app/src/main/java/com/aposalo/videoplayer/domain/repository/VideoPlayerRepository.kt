@@ -14,7 +14,7 @@ class VideoPlayerRepository(
     private val metaDataReader: MetaDataReader,
     )
 {
-    var videoUris : StateFlow<List<Uri>> = savedStateHandle.getStateFlow("videoUris", emptyList())
+    private var videoUris : StateFlow<List<Uri>> = savedStateHandle.getStateFlow("videoUris", emptyList())
 
     fun getMappedVideoItems() : Flow<List<VideoItem>> {
         return videoUris.map { uris ->
@@ -29,7 +29,7 @@ class VideoPlayerRepository(
     }
 
     fun addVideoUriToLocalDatabase(uri : Uri) {
-        val videoUrisNewValue = videoUris.value + uri//na pernaei th kainourgia timh sth topikh bash
+        val videoUrisNewValue = videoUris.value + uri
         savedStateHandle["videoUris"] = videoUrisNewValue
     }
 }

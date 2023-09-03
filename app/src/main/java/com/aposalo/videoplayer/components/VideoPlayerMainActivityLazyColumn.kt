@@ -13,26 +13,23 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.aposalo.videoplayer.domain.model.MainViewModel
 
-class VideoPlayerMainActivityLazyColumn {
-    companion object {
-        @Composable
-        fun GetLazyColumn(viewModel: MainViewModel) {
-            val videoItems by viewModel.videoItems.collectAsState()
-            LazyColumn(
-                modifier = Modifier.fillMaxWidth()
-            ) {
-                items(videoItems) { item ->
-                    Text(
-                        text = item.name,
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .clickable {
-                                viewModel.playVideo(item.contentUri)
-                            }
-                            .padding(16.dp)
-                    )
-                }
-            }
+
+@Composable
+fun GetLazyColumn(viewModel: MainViewModel) {
+    val videoItems by viewModel.videoItems.collectAsState()
+    LazyColumn(
+        modifier = Modifier.fillMaxWidth()
+    ) {
+        items(videoItems) { item ->
+            Text(
+                text = item.name,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .clickable {
+                        viewModel.playVideo(item.contentUri)
+                    }
+                    .padding(16.dp)
+            )
         }
     }
 }

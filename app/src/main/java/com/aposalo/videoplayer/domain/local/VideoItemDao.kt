@@ -10,13 +10,13 @@ import androidx.room.Update
 @Dao
 interface VideoItemDao {
     @Insert
-    suspend fun insertVideoItem(VideoItemEntry: VideoItemEntry)
+    suspend fun insertVideoItem(videoItemEntry: VideoItemEntry)
 
     @Update(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun updateVideoItem(VideoItemEntry: VideoItemEntry)
+    suspend fun updateVideoItem(videoItemEntry: VideoItemEntry)
 
     @Delete
-    suspend fun deleteVideoItem(VideoItemEntry: VideoItemEntry)
+    suspend fun deleteVideoItem(videoItemEntry: VideoItemEntry)
 
     @Query("SELECT * FROM video_item")
     suspend fun getVideoItems() : List<VideoItemEntry>

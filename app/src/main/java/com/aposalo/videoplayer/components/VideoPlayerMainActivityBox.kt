@@ -10,17 +10,13 @@ import androidx.compose.ui.unit.dp
 import com.aposalo.videoplayer.domain.model.MainViewModel
 import com.aposalo.videoplayer.ui.theme.MediumGray
 
-class VideoPlayerMainActivityBox {
-    companion object{
-        @Composable
-        fun GetBox(viewModel: MainViewModel) {
-            Box(modifier = Modifier
-                .fillMaxSize()
-                .background(MediumGray)
-                .padding(16.dp)
-            ) {
-                VideoPlayerMainActivityColumn.GetColumn(viewModel)
-            }
-        }
+@Composable
+fun GetBox(viewModel: MainViewModel) {
+    Box(modifier = Modifier
+        .fillMaxSize()
+        .background(MediumGray)
+        .padding(16.dp)
+    ) {
+        GetColumn(viewModel)
     }
 }

@@ -34,8 +34,6 @@ class MetaDataReaderImpl(
             MetaData(
                 fileName = Uri.parse(fullFileName).lastPathSegment ?: return null
             )
-
         }
     }
-
 }
